@@ -1,6 +1,6 @@
 package io.partyservice.api.party.infrastructure.jdbc;
 
-import io.partyservice.api.party.infrastructure.entity.PartyEntity;
+import io.partyservice.api.party.infrastructure.entity.Party;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Repository;
 public class PartyJdbcTemplateRepositoryImpl implements PartyJdbcTemplateRepository {
   private final JdbcTemplate jdbcTemplate;
 
-  public PartyEntity insert(PartyEntity party) {
+  public Party insert(Party party) {
     String sql = "INSERT INTO party (relation_type, created_at) " +
         "VALUES (?, ?)";
     KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -43,7 +43,7 @@ public class PartyJdbcTemplateRepositoryImpl implements PartyJdbcTemplateReposit
     }
     return party;
   }
-  public PartyEntity update(PartyEntity party) {
+  public Party update(Party party) {
     StringBuilder sql = new StringBuilder("UPDATE party SET");
     List<Object> params = new ArrayList<>();
     boolean needComma = false;
@@ -78,14 +78,14 @@ public class PartyJdbcTemplateRepositoryImpl implements PartyJdbcTemplateReposit
     }
   }
 
-  public PartyEntity save(PartyEntity party) {
+  public Party save(Party party) {
     return Optional.ofNullable(party.getId())
         .map(id -> update(party))
         .orElseGet(() -> insert(party));
   }
 
   @Override
-  public Optional<PartyEntity> findById(long partyId) {
+  public Optional<Party> findById(long partyId) {
     return Optional.empty();
   }
 

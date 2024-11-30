@@ -1,9 +1,9 @@
 package io.partyservice.api.party.domain;
 
-import static io.partyservice.api.party.domain.dto.out.Party.*;
+import static io.partyservice.api.party.domain.dto.out.PartyInfo.*;
 
 import io.partyservice.api.party.client.user.RelationType;
-import io.partyservice.api.party.domain.dto.out.Party;
+import io.partyservice.api.party.domain.dto.out.PartyInfo;
 import io.partyservice.api.party.infrastructure.PartyRepository;
 import io.partyservice.common.exception.ExceptionResponseCode;
 import io.partyservice.common.exception.ServerException;
@@ -24,20 +24,20 @@ public class PartyService {
     private final PartyRepository partyRepository;
 
     @Transactional(readOnly = true)
-    public Party findById(long partyId) {
+    public PartyInfo findById(long partyId) {
         return from(partyRepository.findById(partyId)
                 .orElseThrow(() -> new ServerException(ExceptionResponseCode.PARTY_NOT_FOUND)));
     }
 
     @CacheEvict(cacheNames = "partyId", key = "#relationType")
-    public Party begin(int relationType) {
+    public PartyInfo begin(int relationType) {
         return from(partyRepository.save(create(relationType)));
     }
 
     @Transactional
     public void terminate(long partyId) {
-        Party party = this.findById(partyId);
-        partyRepository.save(party.entityToTerminate());
+        PartyInfo partyInfo = this.findById(partyId);
+        partyRepository.save(partyInfo.entityToTerminate());
     }
 
 

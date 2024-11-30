@@ -1,6 +1,6 @@
 package io.partyservice.api.party.controller.dto.res;
 
-import io.partyservice.api.party.domain.dto.out.Party;
+import io.partyservice.api.party.domain.dto.out.PartyInfo;
 import io.partyservice.common.mapper.ObjectrMapper;
 
 /**
@@ -12,7 +12,7 @@ public record PartyBeginResponse(
         byte relationType
 ) implements PartyResponse {
 
-    public static PartyBeginResponse from(Party party) {
-        return ObjectrMapper.convert(party, PartyBeginResponse.class);
+    public static PartyBeginResponse from(PartyInfo partyInfo) {
+        return ObjectrMapper.convert(partyInfo, PartyBeginResponse.class);
     }
 }

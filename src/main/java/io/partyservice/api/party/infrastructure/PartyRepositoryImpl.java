@@ -1,6 +1,6 @@
 package io.partyservice.api.party.infrastructure;
 
-import io.partyservice.api.party.infrastructure.entity.PartyEntity;
+import io.partyservice.api.party.infrastructure.entity.Party;
 import io.partyservice.api.party.infrastructure.jdbc.PartyJdbcTemplateRepository;
 import io.partyservice.api.party.infrastructure.jpa.PartyJpaRepository;
 import java.util.Optional;
@@ -20,12 +20,12 @@ public class PartyRepositoryImpl implements PartyRepository {
   private final PartyJdbcTemplateRepository partyJdbcTemplateRepository;
 
   @Override
-  public PartyEntity save(PartyEntity party) {
+  public Party save(Party party) {
     return partyJdbcTemplateRepository.save(party);
   }
 
   @Override
-  public Optional<PartyEntity> findById(long partyId) {
+  public Optional<Party> findById(long partyId) {
     return partyJpaRepository.findById(partyId);
   }
 

@@ -1,6 +1,6 @@
 package io.partyservice.api.party.infrastructure;
 
-import io.partyservice.api.party.infrastructure.entity.PartyEntity;
+import io.partyservice.api.party.infrastructure.entity.Party;
 import java.util.Optional;
 
 /**
@@ -9,9 +9,9 @@ import java.util.Optional;
  */
 public interface PartyRepository {
 
-    PartyEntity save(PartyEntity party);
+    Party save(Party party);
 
-    Optional<PartyEntity> findById(long partyId);
+    Optional<Party> findById(long partyId);
 
     Optional<Long> findIdByRelationType(int relationType);
 

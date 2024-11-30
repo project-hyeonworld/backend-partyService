@@ -22,8 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table (name = "party")
-public class PartyEntity {
+public class Party {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
