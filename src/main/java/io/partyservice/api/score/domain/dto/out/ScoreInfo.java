@@ -1,7 +1,6 @@
 package io.partyservice.api.score.domain.dto.out;
 
 import io.partyservice.api.score.infrastructure.entity.Score;
-import io.partyservice.api.scoreHistory.domain.dto.out.ScoreHistoryInfos;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,7 +25,7 @@ public class ScoreInfo {
   }
 
   public static Score createEntity(long partyId, long userId, long score) {
-    return Score.from(partyId, userId, score);
+    return io.partyservice.api.score.infrastructure.entity.Score.from(partyId, userId, score);
   }
 
   public static ScoreInfo from(long partyId, long userId, long score) {
@@ -37,11 +36,5 @@ public class ScoreInfo {
     return userSumScore.entrySet().stream()
         .map(entry -> ScoreInfo.createEntity(partyId, entry.getKey(), entry.getValue()))
         .collect(Collectors.toList());
-  }
-
-  public static List<Score> createEntities(long partyId, ScoreHistoryInfos scoreHistoryInfos) {
-    return scoreHistoryInfos.getCollection().stream()
-            .map(scoreHistoryInfo -> createEntity(partyId, scoreHistoryInfo.getUserId(), scoreHistoryInfo.getScore()))
-            .toList();
   }
 }
