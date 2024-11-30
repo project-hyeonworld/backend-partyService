@@ -46,7 +46,7 @@ public class PartyController {
     public ResponseEntity<RankingResponse> ranking(
             @PathVariable long partyId
     ) {
-        return ResponseEntity.ok(RankingResponse.from(partyScoreFacade.ranking(partyId)));
+        return ResponseEntity.ok(RankingResponse.from(partyScoreFacade.createRankingTable(partyId)));
     }
 
 }
