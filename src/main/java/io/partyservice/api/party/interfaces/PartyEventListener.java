@@ -1,6 +1,8 @@
 package io.partyservice.api.party.interfaces;
 
 
+import io.partyservice.api.party.event.PartyBeginEvent;
+import io.partyservice.api.party.event.PartyTerminateEvent;
 import io.partyservice.common.event.EventListener;
 import io.partyservice.api.party.event.PartyEvent;
 
@@ -9,6 +11,6 @@ import io.partyservice.api.party.event.PartyEvent;
  * @since : 24. 9. 5.
  */
 public interface PartyEventListener extends EventListener<PartyEvent> {
-  void handlePartyEntityBeginEvent(PartyEvent.Begin event);
-  void handlePartyEntityTerminateEvent(PartyEvent.Terminate event);
+  void handlePartyBeginEvent(PartyBeginEvent event);
+  void handlePartyTerminateEvent(PartyTerminateEvent event);
 }

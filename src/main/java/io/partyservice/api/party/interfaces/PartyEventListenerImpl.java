@@ -1,12 +1,14 @@
 package io.partyservice.api.party.interfaces;
 
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
+import static org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION;
 
 import io.partyservice.api.party.domain.PartyService;
 import io.partyservice.api.party.event.PartyEvent;
-import io.partyservice.api.party.event.PartyEvent.Begin;
-import io.partyservice.api.party.event.PartyEvent.Terminate;
+import io.partyservice.api.party.event.PartyBeginEvent;
+import io.partyservice.api.party.event.PartyTerminateEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -22,26 +24,27 @@ public class PartyEventListenerImpl implements PartyEventListener {
     //private final PartyDashboardService partyDashboardService;
 
     @Override
+    @Async
     @TransactionalEventListener(phase = AFTER_COMMIT)
     public void handleEvent(PartyEvent event) {
-        if (event instanceof Begin) {
-            handlePartyEntityBeginEvent((Begin) event);
+        if (event instanceof PartyBeginEvent) {
+            handlePartyBeginEvent((PartyBeginEvent) event);
             return;
         }
-        if (event instanceof Terminate) {
-            handlePartyEntityTerminateEvent((Terminate) event);
+        if (event instanceof PartyTerminateEvent) {
+            handlePartyTerminateEvent((PartyTerminateEvent) event);
             return;
         }
         throw new IllegalArgumentException("Unexpected event type: " + event.getClass());
     }
 
     @Override
-    public void handlePartyEntityTerminateEvent(Terminate event) {
+    public void handlePartyTerminateEvent(PartyTerminateEvent event) {
         partyService.terminate(event.partyId());
     }
 
     @Override
-    public void handlePartyEntityBeginEvent(Begin event) {
+    public void handlePartyBeginEvent(PartyBeginEvent event) {
         return;
         //partyDashboardService.createPartyEntityDashboard(event.partyId());
     }

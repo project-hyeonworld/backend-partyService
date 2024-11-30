@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 11. 30.
  */
-@FeignClient(name = "user-service", url = "${application.config.user-service-url}")
+
+@FeignClient(name = "user-service", url = "${my.config.user-service-url}")
 public interface UserClient {
 
     @GetMapping("/{userId}/name")
