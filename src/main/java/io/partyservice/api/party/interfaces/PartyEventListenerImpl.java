@@ -1,7 +1,6 @@
 package io.partyservice.api.party.interfaces;
 
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
-import static org.springframework.transaction.event.TransactionPhase.AFTER_COMPLETION;
 
 import io.partyservice.api.party.domain.PartyService;
 import io.partyservice.api.party.event.PartyEvent;

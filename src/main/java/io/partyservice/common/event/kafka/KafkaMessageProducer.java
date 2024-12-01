@@ -11,6 +11,8 @@ import org.apache.kafka.common.serialization.Serializer;
  */
 public interface KafkaMessageProducer<E extends CustomEvent, K, V> {
 
+    void initKafkaProducer();
+
     KafkaProducer<Serializer<K>, Serializer<V>> getProducer(E event);
     ProducerRecord<K, V> produce(E event);
 }
