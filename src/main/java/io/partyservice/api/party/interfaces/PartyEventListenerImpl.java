@@ -40,7 +40,7 @@ public class PartyEventListenerImpl implements PartyEventListener {
 
     @Override
     public void handlePartyTerminateEvent(PartyTerminateEvent event) {
-        partyService.terminate(event.partyId());
+        partyKafkaMessageSender.execute(event);
     }
 
     @Override
