@@ -6,7 +6,6 @@ import io.partyservice.api.party.domain.dto.out.PartyInfo;
 import io.partyservice.api.party.event.PartyBeginEvent;
 import io.partyservice.api.party.event.PartyEventPublisher;
 import io.partyservice.api.party.event.PartyTerminateEvent;
-import io.partyservice.api.party.event.kafka.PartyKafkaMessageSender;
 import io.partyservice.common.annotation.Facade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,6 @@ public class PartyFacade {
 
     private final PartyService partyService;
     private final PartyEventPublisher partyEventPublisher;
-    private final PartyKafkaMessageSender partyKafkaMessageSender;
 
     @Transactional
     public PartyInfo begin(BeginPartyCommand command) {
@@ -29,7 +27,7 @@ public class PartyFacade {
             partyEventPublisher.execute(PartyTerminateEvent.from(command.partyId()));
         }
         PartyInfo partyInfo = partyService.begin(command.relationType());
-        partyKafkaMessageSender.execute(PartyBeginEvent.from(partyInfo.getId()));
+        partyEventPublisher.execute(PartyBeginEvent.from(partyInfo.getId()));
         return partyInfo;
     }
 

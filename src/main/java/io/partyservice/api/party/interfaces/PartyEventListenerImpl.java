@@ -6,6 +6,7 @@ import io.partyservice.api.party.domain.PartyService;
 import io.partyservice.api.party.event.PartyEvent;
 import io.partyservice.api.party.event.PartyBeginEvent;
 import io.partyservice.api.party.event.PartyTerminateEvent;
+import io.partyservice.api.party.event.kafka.PartyKafkaMessageSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class PartyEventListenerImpl implements PartyEventListener {
 
     private final PartyService partyService;
-    //private final PartyDashboardService partyDashboardService;
+    private final PartyKafkaMessageSender partyKafkaMessageSender;
 
     @Override
     @Async
@@ -44,7 +45,6 @@ public class PartyEventListenerImpl implements PartyEventListener {
 
     @Override
     public void handlePartyBeginEvent(PartyBeginEvent event) {
-        return;
-        //partyDashboardService.createPartyEntityDashboard(event.partyId());
+        partyKafkaMessageSender.execute(event);
     }
 }
