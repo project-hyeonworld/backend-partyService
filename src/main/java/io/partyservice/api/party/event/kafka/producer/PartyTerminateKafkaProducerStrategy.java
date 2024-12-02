@@ -17,12 +17,12 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Strategy(1)
 public class PartyTerminateKafkaProducerStrategy implements
-        KafkaProducerStrategy<PartyTerminateEvent, String, Long> {
+        KafkaProducerStrategy<PartyTerminateEvent, String, PartyTerminateEvent> {
 
 
     private final String BROKER_URL;
     private final String PARTY_TERMINATE_TOPIC;
-    private final KafkaProducer<String, Long> kafkaProducer;
+    private final KafkaProducer<String, PartyTerminateEvent> kafkaProducer;
 
     public PartyTerminateKafkaProducerStrategy(@Value("${spring.kafka.broker.url}") String brokerUrl,
             @Value("${spring.kafka.topic.party.terminate}") String partyTerminateTopic) {
@@ -36,6 +36,16 @@ public class PartyTerminateKafkaProducerStrategy implements
     }
 
     @Override
+    public String getTopic() {
+        return PARTY_TERMINATE_TOPIC;
+    }
+
+    @Override
+    public KafkaProducer<String, PartyTerminateEvent> getProducer() {
+        return null;
+    }
+
+    @Override
     public Class<PartyTerminateEvent> getEventClass() {
         return PartyTerminateEvent.class;
     }
@@ -46,8 +56,8 @@ public class PartyTerminateKafkaProducerStrategy implements
     }
 
     @Override
-    public ProducerRecord<String, Long> produce(PartyTerminateEvent event) {
-        return new ProducerRecord<>(PARTY_TERMINATE_TOPIC, event.partyId());
+    public ProducerRecord<String, PartyTerminateEvent> produce(PartyTerminateEvent event) {
+        return new ProducerRecord<>(PARTY_TERMINATE_TOPIC, event);
     }
 
     @Override

@@ -22,10 +22,10 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Strategy(3)
 public class PartyTerminateKafkaConsumerStrategy implements
-        KafkaConsumerStrategy<PartyTerminateEvent, String, Long> {
+        KafkaConsumerStrategy<PartyTerminateEvent, String, PartyTerminateEvent> {
 
     private Duration timeout;
-    private KafkaConsumer<String, Long> kafkaConsumer;
+    private KafkaConsumer<String, PartyTerminateEvent> kafkaConsumer;
 
     public PartyTerminateKafkaConsumerStrategy(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party.terminate}")String partyTerminateTopic, @Value("${spring.application.name}") String groupId) {
         timeout = Duration.ofMillis(10000);
@@ -45,7 +45,7 @@ public class PartyTerminateKafkaConsumerStrategy implements
     }
 
     @Override
-    public KafkaConsumer<String, Long> getConsumner() {
+    public KafkaConsumer<String, PartyTerminateEvent> getConsumner() {
         return kafkaConsumer;
     }
 
@@ -57,9 +57,9 @@ public class PartyTerminateKafkaConsumerStrategy implements
     @Override
     public List<PartyTerminateEvent> receive() {
         List<PartyTerminateEvent> events = new ArrayList<>();
-        ConsumerRecords<String, Long> records = poll();
-        for (ConsumerRecord<String, Long> record : records) {
-            events.add(PartyTerminateEvent.from(record.value()));
+        ConsumerRecords<String, PartyTerminateEvent> records = consume();
+        for (ConsumerRecord<String, PartyTerminateEvent> record : records) {
+            events.add(record.value());
         }
         return events;
     }

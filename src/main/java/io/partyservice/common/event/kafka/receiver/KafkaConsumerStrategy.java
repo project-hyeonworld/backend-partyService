@@ -19,13 +19,9 @@ public interface KafkaConsumerStrategy<E extends CustomEvent, K, V> {
         return getEventClass().getName();
     }
     List<E> receive();
-    default ConsumerRecords<K, V> poll() {
+    default ConsumerRecords<K, V> consume() {
         return getConsumner().poll(getTimeout());
     }
 
-
-
-
-    ;
     void close();
 }
