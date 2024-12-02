@@ -1,13 +1,13 @@
-package io.partyservice.api.party.event.kafka.producer;
+ package io.partyservice.api.party.event.kafka.producer;
 
 import io.partyservice.api.party.event.PartyBeginEvent;
 import io.partyservice.common.annotation.Strategy;
 import io.partyservice.common.event.kafka.producer.KafkaProducerStrategy;
+import io.partyservice.common.mapper.ObjectSerializer;
 import java.util.Properties;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -18,19 +18,27 @@ import org.springframework.beans.factory.annotation.Value;
 @Strategy(0)
 public class PartyBeginKafkaProducerStrategy implements KafkaProducerStrategy<PartyBeginEvent, String, Long> {
 
-    private final String BROKER_URL;
     private final String PARTY_BEGIN_TOPIC;
 
     private KafkaProducer<String, Long> kafkaProducer;
 
     public PartyBeginKafkaProducerStrategy(@Value("${spring.kafka.broker.url}") String brokerUrl, @Value("${spring.kafka.topic.party.begin}") String partyBeginTopic) {
-        BROKER_URL = brokerUrl;
         PARTY_BEGIN_TOPIC = partyBeginTopic;
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER_URL); // Kafka 서버 주소
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerUrl);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
         kafkaProducer = new KafkaProducer<>(props);
+    }
+
+    @Override
+    public String getTopic() {
+        return PARTY_BEGIN_TOPIC;
+    }
+
+    @Override
+    public KafkaProducer<String, PartyBeginEvent> getProducer() {
+        return kafkaProducer;
     }
 
     @Override
@@ -44,8 +52,8 @@ public class PartyBeginKafkaProducerStrategy implements KafkaProducerStrategy<Pa
     }
 
     @Override
-    public ProducerRecord<String, Long> produce(PartyBeginEvent event) {
-        return new ProducerRecord<>(PARTY_BEGIN_TOPIC, event.partyId());
+    public ProducerRecord<String, PartyBeginEvent> produce(PartyBeginEvent event) {
+        return new ProducerRecord<>(PARTY_BEGIN_TOPIC, event);
     }
 
     @Override
