@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 8. 27.
  */
-public class ObjectrMapper {
+public class CusotmObjectMapper {
   private static final ObjectMapper objectMapper;
 
   static{

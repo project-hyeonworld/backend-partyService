@@ -1,6 +1,6 @@
 package io.partyservice.api.party.domain.dto.out;
 
-import io.partyservice.common.mapper.ObjectrMapper;
+import io.partyservice.common.mapper.CusotmObjectMapper;
 import java.time.LocalDateTime;
 import io.partyservice.api.party.infrastructure.entity.Party;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public class PartyInfo {
     int relationType;
 
     public static PartyInfo from(io.partyservice.api.party.infrastructure.entity.Party party) {
-        return ObjectrMapper.convert(party, PartyInfo.class);
+        return CusotmObjectMapper.convert(party, PartyInfo.class);
     }
 
     private static Party.PartyBuilder initializeEntity() {
