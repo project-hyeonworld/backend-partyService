@@ -11,6 +11,4 @@ import io.partyservice.api.party.event.PartyEvent;
  * @since : 24. 9. 5.
  */
 public interface PartyEventListener extends EventListener<PartyEvent> {
-  void handlePartyBeginEvent(PartyBeginEvent event);
-  void handlePartyTerminateEvent(PartyTerminateEvent event);
 }

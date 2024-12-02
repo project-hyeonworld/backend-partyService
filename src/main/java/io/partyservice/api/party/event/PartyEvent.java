@@ -7,6 +7,4 @@ import io.partyservice.common.event.CustomEvent;
  * @since : 24. 9. 5.
  */
 public interface PartyEvent extends CustomEvent {
-
-
 }
