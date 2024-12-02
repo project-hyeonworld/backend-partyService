@@ -1,8 +1,8 @@
-package io.partyservice.api.party.event.kafka;
+package io.partyservice.api.party.event.kafka.producer;
 
-import io.partyservice.api.party.event.PartyBeginEvent;
+import io.partyservice.api.party.event.PartyTerminateEvent;
 import io.partyservice.common.annotation.Strategy;
-import io.partyservice.common.event.kafka.KafkaProducerStrategy;
+import io.partyservice.common.event.kafka.producer.KafkaProducerStrategy;
 import java.util.Properties;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -15,17 +15,19 @@ import org.springframework.beans.factory.annotation.Value;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 12. 2.
  */
-@Strategy(0)
-public class PartyBeginKafkaProducerStrategy implements KafkaProducerStrategy<PartyBeginEvent, String, Long> {
+@Strategy(1)
+public class PartyTerminateKafkaProducerStrategy implements
+        KafkaProducerStrategy<PartyTerminateEvent, String, Long> {
+
 
     private final String BROKER_URL;
-    private final String PARTY_BEGIN_TOPIC;
+    private final String PARTY_TERMINATE_TOPIC;
+    private final KafkaProducer<String, Long> kafkaProducer;
 
-    private KafkaProducer<String, Long> kafkaProducer;
-
-    public PartyBeginKafkaProducerStrategy(@Value("${spring.kafka.broker.url}") String brokerUrl, @Value("${spring.kafka.topic.party.begin}") String partyBeginTopic) {
+    public PartyTerminateKafkaProducerStrategy(@Value("${spring.kafka.broker.url}") String brokerUrl,
+            @Value("${spring.kafka.topic.party.terminate}") String partyTerminateTopic) {
         BROKER_URL = brokerUrl;
-        PARTY_BEGIN_TOPIC = partyBeginTopic;
+        PARTY_TERMINATE_TOPIC = partyTerminateTopic;
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BROKER_URL); // Kafka 서버 주소
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
@@ -34,18 +36,18 @@ public class PartyBeginKafkaProducerStrategy implements KafkaProducerStrategy<Pa
     }
 
     @Override
-    public String getEventName() {
-        return PartyBeginEvent.class.getName();
+    public Class<PartyTerminateEvent> getEventClass() {
+        return PartyTerminateEvent.class;
     }
 
     @Override
-    public void send(PartyBeginEvent event) {
+    public void send(PartyTerminateEvent event) {
         kafkaProducer.send(produce(event));
     }
 
     @Override
-    public ProducerRecord<String, Long> produce(PartyBeginEvent event) {
-        return new ProducerRecord<>(PARTY_BEGIN_TOPIC, event.partyId());
+    public ProducerRecord<String, Long> produce(PartyTerminateEvent event) {
+        return new ProducerRecord<>(PARTY_TERMINATE_TOPIC, event.partyId());
     }
 
     @Override

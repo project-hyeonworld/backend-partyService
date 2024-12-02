@@ -1,4 +1,4 @@
-package io.partyservice.common.event.kafka;
+package io.partyservice.common.event.kafka.producer;
 
 import io.partyservice.common.annotation.StrategyFactory;
 import io.partyservice.common.event.CustomEvent;
@@ -18,18 +18,16 @@ public class CustomKafkaProducerFactory<E extends CustomEvent> {
 
     public CustomKafkaProducerFactory(List<KafkaProducerStrategy> kafkaProducerStrategies) {
         this.strategies = new HashMap<>();
-        for (KafkaProducerStrategy kafkaProducerStrategy : kafkaProducerStrategies) {
-            strategies.put(kafkaProducerStrategy.getEventName(), kafkaProducerStrategy);
+        for (KafkaProducerStrategy kafkaMessageProducerStrategy : kafkaProducerStrategies) {
+            strategies.put(kafkaMessageProducerStrategy.getEventName(), kafkaMessageProducerStrategy);
         }
     }
 
     public KafkaProducerStrategy getStrategy(E event) {
-        KafkaProducerStrategy kafkaProducerStrategy = strategies.get(event.getClass().getName());
+        KafkaProducerStrategy kafkaMessageProducerStrategy = strategies.get(event.getClass().getName());
         if (strategies == null) {
             throw new IllegalArgumentException("No strategy found for gameId: ");
         }
-        return kafkaProducerStrategy;
+        return kafkaMessageProducerStrategy;
     }
-
-
 }

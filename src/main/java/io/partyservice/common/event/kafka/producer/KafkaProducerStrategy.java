@@ -1,4 +1,4 @@
-package io.partyservice.common.event.kafka;
+package io.partyservice.common.event.kafka.producer;
 
 import io.partyservice.common.event.CustomEvent;
 import org.apache.kafka.clients.producer.ProducerRecord;;
@@ -9,10 +9,15 @@ import org.apache.kafka.clients.producer.ProducerRecord;;
  */
 public interface KafkaProducerStrategy<E extends CustomEvent, K, V> {
 
+    Class<E> getEventClass();
+
     default String getEventName() {
-        return this.getClass().getName();
+        return getEventClass().getName();
     }
+
     void send(E event);
-    ProducerRecord<K,V> produce(E event);
+
+    ProducerRecord<K, V> produce(E event);
+
     void close();
 }

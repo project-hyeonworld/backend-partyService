@@ -1,9 +1,9 @@
-package io.partyservice.api.party.event.kafka;
+package io.partyservice.api.party.event.kafka.producer;
 
 import io.partyservice.api.party.event.PartyEvent;
-import io.partyservice.common.event.kafka.CustomKafkaProducerFactory;
-import io.partyservice.common.event.kafka.KafkaMessageProducer;
-import io.partyservice.common.event.kafka.KafkaProducerStrategy;
+import io.partyservice.common.event.kafka.producer.CustomKafkaProducerFactory;
+import io.partyservice.common.event.kafka.producer.KafkaProducerManager;
+import io.partyservice.common.event.kafka.producer.KafkaProducerStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class PartyKafkaMessageProducer implements KafkaMessageProducer<PartyEvent, String, Long> {
+public class PartyKafkaProducerManager implements KafkaProducerManager<PartyEvent, String, Long> {
 
     private final CustomKafkaProducerFactory customKafkaProducerFactory;
 
