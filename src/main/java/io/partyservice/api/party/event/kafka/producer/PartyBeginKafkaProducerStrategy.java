@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 public class PartyBeginKafkaProducerStrategy implements KafkaProducerStrategy<PartyBeginEvent, String, Long> {
 
     private final String PARTY_BEGIN_TOPIC;
-
     private KafkaProducer<String, Long> kafkaProducer;
 
     public PartyBeginKafkaProducerStrategy(@Value("${spring.kafka.broker.url}") String brokerUrl, @Value("${spring.kafka.topic.party.begin}") String partyBeginTopic) {

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class PartyKafkaProducerManager implements KafkaProducerManager<PartyEvent, String, Long> {
+public class PartyKafkaProducerManager implements KafkaProducerManager<PartyEvent> {
 
     private final CustomKafkaProducerFactory customKafkaProducerFactory;
 

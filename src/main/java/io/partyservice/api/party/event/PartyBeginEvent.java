@@ -6,7 +6,7 @@ package io.partyservice.api.party.event;
  */
 public record PartyBeginEvent(long partyId) implements PartyEvent {
 
-    public static PartyEvent from(long partyId) {
+    public static PartyBeginEvent from(long partyId) {
         return new PartyBeginEvent(partyId);
     }
 }
