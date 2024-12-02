@@ -20,14 +20,14 @@ public class PartyBeginKafkaProducerStrategy implements KafkaProducerStrategy<Pa
 
     private final String PARTY_BEGIN_TOPIC;
 
-    private KafkaProducer<String, Long> kafkaProducer;
+    private KafkaProducer<String, PartyBeginEvent> kafkaProducer;
 
     public PartyBeginKafkaProducerStrategy(@Value("${spring.kafka.broker.url}") String brokerUrl, @Value("${spring.kafka.topic.party.begin}") String partyBeginTopic) {
         PARTY_BEGIN_TOPIC = partyBeginTopic;
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerUrl);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ObjectSerializer.class.getName());
         kafkaProducer = new KafkaProducer<>(props);
     }
 
