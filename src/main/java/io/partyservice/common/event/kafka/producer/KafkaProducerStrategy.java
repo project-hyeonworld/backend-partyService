@@ -12,7 +12,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;;
 public interface KafkaProducerStrategy<E extends CustomEvent, K, V> {
 
     String getTopic();
-    KafkaProducer<K,E> getProducer();
+    KafkaProducer<K, V> getProducer();
     Class<E> getEventClass();
 
     default String getEventName() {
@@ -23,7 +23,7 @@ public interface KafkaProducerStrategy<E extends CustomEvent, K, V> {
        getProducer().send(produce(event));
     }
 
-    default ProducerRecord<K, E> produce(E event) {
+    default ProducerRecord produce(E event) {
       return new ProducerRecord<>(getTopic(), event);
     }
 
