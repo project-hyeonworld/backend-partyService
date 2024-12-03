@@ -8,6 +8,7 @@ import java.util.Properties;
 import io.partyservice.api.party.event.PartyTerminateEvent;
 import io.partyservice.common.annotation.Strategy;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +39,7 @@ public class PartyTerminateKafkaConsumerStrategy extends
     }
 
     @Override
-    protected PartyTerminateEvent convertToEvent(PartyTerminateEvent value) {
-        return value;
+    protected PartyTerminateEvent convertToEvent(ConsumerRecord<String, PartyTerminateEvent> record) {
+        return record.value();
     }
 }

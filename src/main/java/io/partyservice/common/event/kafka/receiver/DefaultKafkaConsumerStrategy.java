@@ -29,7 +29,7 @@ public abstract class DefaultKafkaConsumerStrategy<E extends CustomEvent, K, V> 
         List<E> events = new ArrayList<>();
         ConsumerRecords<K, V> records = consume();
         for (ConsumerRecord<K, V> record : records) {
-            events.add(convertToEvent(record.value()));
+            events.add(convertToEvent(record));
         }
         return events;
     }
@@ -38,5 +38,5 @@ public abstract class DefaultKafkaConsumerStrategy<E extends CustomEvent, K, V> 
         return getConsumner().poll(timeout);
     }
 
-    protected abstract E convertToEvent(V value);
+    protected abstract E convertToEvent(ConsumerRecord<K, V> record);
 }
