@@ -1,17 +1,13 @@
 package io.partyservice.api.party.event.kafka.consumer;
 
+import io.partyservice.common.event.kafka.receiver.DefaultKafkaConsumerStrategy;
 import io.partyservice.common.mapper.PartyTerminateEventDeserializer;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Properties;
 import io.partyservice.api.party.event.PartyTerminateEvent;
 import io.partyservice.common.annotation.Strategy;
-import io.partyservice.common.event.kafka.receiver.KafkaConsumerStrategy;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,11 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
  * @since : 24. 12. 2.
  */
 @Strategy(3)
-public class PartyTerminateKafkaConsumerStrategy implements
-        KafkaConsumerStrategy<PartyTerminateEvent, String, PartyTerminateEvent> {
-
-    private Duration timeout;
-    private KafkaConsumer<String, PartyTerminateEvent> kafkaConsumer;
+public class PartyTerminateKafkaConsumerStrategy extends
+        DefaultKafkaConsumerStrategy<PartyTerminateEvent, String, PartyTerminateEvent> {
 
     public PartyTerminateKafkaConsumerStrategy(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party.terminate}")String partyTerminateTopic, @Value("${spring.application.name}") String groupId) {
         timeout = Duration.ofMillis(10000);
@@ -45,27 +38,7 @@ public class PartyTerminateKafkaConsumerStrategy implements
     }
 
     @Override
-    public KafkaConsumer<String, PartyTerminateEvent> getConsumner() {
-        return kafkaConsumer;
-    }
-
-    @Override
-    public Duration getTimeout() {
-        return timeout;
-    }
-
-    @Override
-    public List<PartyTerminateEvent> receive() {
-        List<PartyTerminateEvent> events = new ArrayList<>();
-        ConsumerRecords<String, PartyTerminateEvent> records = consume();
-        for (ConsumerRecord<String, PartyTerminateEvent> record : records) {
-            events.add(record.value());
-        }
-        return events;
-    }
-
-    @Override
-    public void close() {
-
+    protected PartyTerminateEvent convertToEvent(PartyTerminateEvent value) {
+        return value;
     }
 }

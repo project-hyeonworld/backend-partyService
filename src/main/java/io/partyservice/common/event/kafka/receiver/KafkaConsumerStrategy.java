@@ -10,18 +10,6 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 12. 2.
  */
-public interface KafkaConsumerStrategy<E extends CustomEvent, K, V> {
+public interface KafkaConsumerStrategy<E extends CustomEvent> {
     Class<E> getEventClass();
-    KafkaConsumer<K, V> getConsumner();
-    Duration getTimeout();
-
-    default String getEventName() {
-        return getEventClass().getName();
-    }
-    List<E> receive();
-    default ConsumerRecords<K, V> consume() {
-        return getConsumner().poll(getTimeout());
-    }
-
-    void close();
 }
