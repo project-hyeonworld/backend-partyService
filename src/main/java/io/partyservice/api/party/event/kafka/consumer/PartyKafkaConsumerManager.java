@@ -3,6 +3,7 @@ package io.partyservice.api.party.event.kafka.consumer;
 import io.partyservice.api.party.event.PartyEvent;
 
 import io.partyservice.common.event.kafka.receiver.CustomKafkaConsumerFactory;
+import io.partyservice.common.event.kafka.receiver.DefaultKafkaConsumerStrategy;
 import io.partyservice.common.event.kafka.receiver.KafkaConsumerManager;
 
 import io.partyservice.common.event.kafka.receiver.KafkaConsumerStrategy;
@@ -20,7 +21,7 @@ public class PartyKafkaConsumerManager implements KafkaConsumerManager<PartyEven
     private final CustomKafkaConsumerFactory customKafkaConsumerFactory;
 
     @Override
-    public KafkaConsumerStrategy getConsumer(Class eventClass) {
+    public DefaultKafkaConsumerStrategy getConsumer(Class eventClass) {
         return customKafkaConsumerFactory.getConsumer(eventClass);
     }
 }

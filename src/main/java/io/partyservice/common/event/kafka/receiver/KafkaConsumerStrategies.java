@@ -1,6 +1,5 @@
 package io.partyservice.common.event.kafka.receiver;
 
-import io.partyservice.common.event.CustomEvent;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +10,19 @@ import org.springframework.stereotype.Component;
  * @since : 24. 12. 2.
  */
 @Component
-public class KafkaConsumerStrategies<E extends CustomEvent> {
-    private final List<KafkaConsumerStrategy> consumers;
+public class KafkaConsumerStrategies {
+    private final List<DefaultKafkaConsumerStrategy> consumers;
 
     @Autowired
-    public KafkaConsumerStrategies(List<KafkaConsumerStrategy> kafkaConsumers) {
+    public KafkaConsumerStrategies(List<DefaultKafkaConsumerStrategy> kafkaConsumers) {
         consumers = new ArrayList<>(kafkaConsumers);
     }
 
-    public static KafkaConsumerStrategies from(List<KafkaConsumerStrategy> collect) {
+    public static KafkaConsumerStrategies from(List<DefaultKafkaConsumerStrategy> collect) {
         return new KafkaConsumerStrategies(collect);
     }
 
-    public void add(KafkaConsumerStrategy strategy) {
+    public void add(DefaultKafkaConsumerStrategy strategy) {
         consumers.add(strategy);
     }
 

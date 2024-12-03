@@ -1,7 +1,5 @@
 package io.partyservice.common.event.kafka.receiver;
 
-import io.partyservice.api.party.event.PartyTerminateEvent;
-import io.partyservice.api.party.event.kafka.consumer.PartyTerminateKafkaConsumerStrategy;
 import io.partyservice.common.event.CustomEvent;
 
 /**
@@ -10,5 +8,5 @@ import io.partyservice.common.event.CustomEvent;
  */
 public interface KafkaConsumerManager<E extends CustomEvent> {
 
-    KafkaConsumerStrategy getConsumer(Class<E> eventClass);
+    DefaultKafkaConsumerStrategy getConsumer(Class<E> eventClass);
 }

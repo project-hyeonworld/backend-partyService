@@ -11,16 +11,16 @@ import java.util.Map;
  */
 @StrategyFactory
 public class CustomKafkaConsumerFactory {
-    private final Map<String, KafkaConsumerStrategy> strategies;
+    private final Map<String, DefaultKafkaConsumerStrategy> strategies;
 
-    public CustomKafkaConsumerFactory(List<KafkaConsumerStrategy> kafkaConsumerStrategies) {
+    public CustomKafkaConsumerFactory(List<DefaultKafkaConsumerStrategy> kafkaConsumerStrategies) {
         this.strategies = new HashMap<>();
-        for (KafkaConsumerStrategy kafkaConsumerStrategy : kafkaConsumerStrategies) {
+        for (DefaultKafkaConsumerStrategy kafkaConsumerStrategy : kafkaConsumerStrategies) {
             strategies.put(kafkaConsumerStrategy.getEventName(), kafkaConsumerStrategy);
         }
     }
 
-    public KafkaConsumerStrategy getConsumer(Class eventClass) {
+    public DefaultKafkaConsumerStrategy getConsumer(Class eventClass) {
         return strategies.get(eventClass.getName());
     }
 }
