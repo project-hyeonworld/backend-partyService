@@ -1,13 +1,8 @@
 package io.partyservice.api.party.event.kafka.consumer;
 
-import io.partyservice.api.party.event.PartyEvent;
-
-import io.partyservice.common.event.kafka.receiver.CustomKafkaConsumerFactory;
-import io.partyservice.common.event.kafka.receiver.DefaultKafkaConsumerStrategy;
-import io.partyservice.common.event.kafka.receiver.KafkaConsumerManager;
-
-import io.partyservice.common.event.kafka.receiver.KafkaConsumerStrategy;
-import lombok.RequiredArgsConstructor;
+import io.partyservice.api.party.event.kafka.PartyTerminateKafkaEvent;
+import io.partyservice.common.event.kafka.consumer.GenericKafkaConsumerFactory;
+import io.partyservice.common.event.kafka.consumer.GenericKafkaConsumerManager;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,13 +10,10 @@ import org.springframework.stereotype.Component;
  * @since : 24. 12. 2.
  */
 @Component
-@RequiredArgsConstructor
-public class PartyKafkaConsumerManager implements KafkaConsumerManager<PartyEvent> {
+public class PartyKafkaConsumerManager extends GenericKafkaConsumerManager<PartyTerminateKafkaEvent> {
 
-    private final CustomKafkaConsumerFactory customKafkaConsumerFactory;
-
-    @Override
-    public DefaultKafkaConsumerStrategy getConsumer(Class eventClass) {
-        return customKafkaConsumerFactory.getConsumer(eventClass);
+    public PartyKafkaConsumerManager(
+            GenericKafkaConsumerFactory<PartyTerminateKafkaEvent> genericKafkaConsumerFactory) {
+        super(genericKafkaConsumerFactory);
     }
 }

@@ -1,8 +1,12 @@
 package io.partyservice.api.party.event.kafka.consumer;
 
-import io.partyservice.common.event.kafka.receiver.DefaultKafkaConsumerStrategy;
+import io.partyservice.api.party.event.kafka.PartyTerminateKafkaEvent;
+import io.partyservice.common.event.kafka.consumer.GenericKafkaConsumerStrategy;
 import io.partyservice.common.mapper.PartyTerminateEventDeserializer;
 import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Properties;
 import io.partyservice.api.party.event.PartyTerminateEvent;
@@ -19,7 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Strategy(3)
 public class PartyTerminateKafkaConsumerStrategy extends
-        DefaultKafkaConsumerStrategy<PartyTerminateEvent, String, PartyTerminateEvent> {
+        GenericKafkaConsumerStrategy<PartyTerminateKafkaEvent, String, PartyTerminateEvent> {
 
     public PartyTerminateKafkaConsumerStrategy(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party.terminate}")String partyTerminateTopic, @Value("${spring.application.name}") String groupId) {
         timeout = Duration.ofMillis(10000);
@@ -33,13 +37,20 @@ public class PartyTerminateKafkaConsumerStrategy extends
         kafkaConsumer.subscribe(Collections.singletonList(partyTerminateTopic));
     }
 
+
     @Override
-    public Class<PartyTerminateEvent> getEventClass() {
-        return PartyTerminateEvent.class;
+    public Class<PartyTerminateKafkaEvent> getEventClass() {
+        return PartyTerminateKafkaEvent.class;
     }
 
     @Override
-    protected PartyTerminateEvent convertToEvent(ConsumerRecord<String, PartyTerminateEvent> record) {
-        return record.value();
+    protected PartyTerminateKafkaEvent convertToEvent(ConsumerRecord<String, PartyTerminateEvent> record) {
+        LocalDateTime terminatedAt = convertTimestampToLocalDateTime(record.timestamp());
+        return PartyTerminateKafkaEvent.from(record.value().partyId(), terminatedAt);
+    }
+
+    private LocalDateTime convertTimestampToLocalDateTime(long timestamp) {
+        Instant instant = Instant.ofEpochMilli(timestamp);
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 }

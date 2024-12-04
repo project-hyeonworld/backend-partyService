@@ -6,7 +6,7 @@ import io.partyservice.api.party.domain.PartyService;
 import io.partyservice.api.party.event.PartyEvent;
 import io.partyservice.api.party.event.PartyBeginEvent;
 import io.partyservice.api.party.event.PartyTerminateEvent;
-import io.partyservice.api.party.event.PartyTerminateKafkaEvent;
+import io.partyservice.api.party.event.kafka.PartyTerminateKafkaEvent;
 import io.partyservice.api.party.event.kafka.producer.PartyKafkaSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
