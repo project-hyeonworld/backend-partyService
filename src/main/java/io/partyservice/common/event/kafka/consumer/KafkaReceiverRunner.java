@@ -1,4 +1,4 @@
-package io.partyservice.common.event.kafka.receiver;
+package io.partyservice.common.event.kafka.consumer;
 
 import java.util.ArrayList;
 import java.util.List;
