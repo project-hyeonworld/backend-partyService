@@ -32,6 +32,7 @@ public class PartyInfo {
     public Party entityToTerminate() {
         return initializeEntity()
                 .id(id)
+                .relationType(relationType)
                 .terminatedAt(LocalDateTime.now())
                 .build();
     }

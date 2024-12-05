@@ -7,8 +7,8 @@ import io.partyservice.api.party.controller.dto.req.PartyBeginRequest;
 import io.partyservice.api.party.controller.dto.res.PartyBeginResponse;
 import io.partyservice.api.party.controller.dto.res.PartyTerminateResponse;
 import io.partyservice.api.party.controller.dto.res.RankingResponse;
+import io.partyservice.api.party.domain.PartyService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v2/parties")
 public class PartyController {
 
+    private final PartyService partyService;
     private final PartyFacade partyFacade;
     private final PartyScoreFacade partyScoreFacade;
 
@@ -47,6 +49,13 @@ public class PartyController {
             @PathVariable long partyId
     ) {
         return ResponseEntity.ok(RankingResponse.from(partyScoreFacade.createRankingTable(partyId)));
+    }
+
+    @GetMapping
+    public ResponseEntity<Long> getByRelationType(
+            @RequestParam("relation-type") int relationType
+    ) {
+        return ResponseEntity.ok(partyService.findByRelationType(relationType));
     }
 
 }
