@@ -6,6 +6,9 @@ DOCKER_IMAGE_NAME="party-service"
 DOCKER_CONTAINER_NAME="spring-boot"
 PROJECT_PORT="10003"
 
+sudo apt install openjdk-21-jre-headless
+sudo snap install docker
+
 echo "Building the Spring Boot application..."
 ./gradlew clean build
 
